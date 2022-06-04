@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import Login from "./components/Login";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
+import ChatRoom from "./components/ChatRoom";
+import AuthProvider from "./context/AuthProvider";
+import AppProvider from "./context/AppProvider";
+import AddRoom from "./components/Modals/AddRoom";
+import InviteMember from "./components/Modals/InviteMember";
 
 function App() {
+  const history = useHistory();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <AuthProvider>
+        <AppProvider>
+          <Switch>
+            <Route exact component={ChatRoom} path='/' />
+            <Route exact component={Login} path='/login' />
+          </Switch>
+          <AddRoom />
+          <InviteMember />
+        </AppProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
